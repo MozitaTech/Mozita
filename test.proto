@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+
+
+message Hash {
+  string hash = 1;
+  message Parts {
+    int32 total = 1;
+    string hash = 2;
+  }
+}
+
+message BlockHeader {
+  message Version {
+    string block = 1;
+  }
+  string chain_id = 2;
+  string height = 3;
+  string time = 4;
+  Hash last_block_id = 5;
+  string last_commit_hash = 6;
+  string data_hash = 7;
+  string validators_hash = 8;
+  string next_validators_hash = 9;
+  string consensus_hash = 10;
+  string app_hash = 11;
+  string last_results_hash = 12;
+  string evidence_hash = 13;
+  string proposer_address = 14;
+}
+
+message BlockData {
+  repeated string txs = 1;
+}
+
+message Block {
+  BlockHeader header = 1;
+  BlockData data = 2;
+  message Evidence {
+    repeated string evidence = 1;
+  }
+  Evidence evidence = 3;
+  message LastCommit {
+    string height = 1;
+    int32 round = 2;
+    Hash block_id = 3;
+    message Signature {
+      int32 block_id_flag = 1;
+      string validator_address = 2;
+      string timestamp = 3;
+      string signature = 4;
+    }
+    repeated Signature signatures = 4;
+  }
+  LastCommit last_commit = 4;
+}
+
+message Result {
+  Hash block_id = 1;
+  Block block = 2;
+}
+
+message Response {
+  string jsonrpc = 1;
+  int32 id = 2;
+  Result result = 3;
+}
